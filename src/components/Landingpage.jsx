@@ -1,6 +1,6 @@
 import {  MoveUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-
+import eye from "../assets/eye.jpg"
 export const Landingpage = () => {
   const mainContent = ["WE CREATE", "EYE-OPENING", "PRESENTATIONS"];
   const bottomContent = [
@@ -9,7 +9,7 @@ export const Landingpage = () => {
     "Start the project",
   ];
   return (
-    <div className="w-full h-screen border-t-4">
+    <div data-scroll className="w-full h-screen border-t-4">
       <div className="mt-52 px-20">
         {mainContent.map((content, index) => (
           <div key={index} className="masker">
@@ -18,8 +18,12 @@ export const Landingpage = () => {
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "8vw" }}
-                  transition={{ ease: [0.37, 0, 0.63, 1],duration:1 }}
-                  className="w-[8vw] h-[5.5vw] rounded bg-rose-400 relative top-1"
+                  transition={{ ease: [0.37, 0, 0.63, 1], duration: 1 }}
+                  className="w-[8.5vw] h-[5vw] rounded bg-cover"
+                  style={{
+                    backgroundImage: `url(${eye})`,
+                    backgroundPosition: "center",
+                  }}
                 ></motion.div>
               )}
               <h1 className="text-[7.5vw] uppercase font-semibold leading-[7vw] tracking-tighter">

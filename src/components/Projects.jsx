@@ -1,43 +1,70 @@
 import {useState} from 'react'
 import { MoveUpRight } from 'lucide-react';
-import project1 from "../assets/p1.png";
-import project2 from "../assets/p2.png";
-import project3 from "../assets/p3.png";
-import project4 from "../assets/p4.png";
+import { projectsList } from '../utils/data';
+import { ProjectCard } from './ProjectCard';
+import { motion } from 'framer-motion';
+
+
 
 export const Projects = () => {
+  
      const [showIcon, setShowIcon] = useState(false);
+     const [hoveredProjectTitle, setHoveredProjectTitle] = useState("");
      const onMouseEnter = () => {
        setShowIcon(true);
      };
      const onMouseleave = () => {
        setShowIcon(false);
      };
+     
+     const onCardHover = (title) => {
+       setHoveredProjectTitle(title);
+     };
+     const onCardLeaveHover = () => {
+       setHoveredProjectTitle("");
+     };
+ const letterAnimation = {
+   initial: { y: "100%", opacity: 0 },
+   animate: { y: "0%", opacity: 1 },
+   transition: { duration: 0.5, ease: "easeOut" },
+ };
+
+ const containerAnimation = {
+   animate: {
+     transition: {
+       staggerChildren: 0.05,
+       delayChildren: 0.2,
+     },
+   },
+ };
+
   return (
     <div className="w-full">
       <h1 className="px-20 py-4 text-[3vw] ">Featured Projects</h1>
       <div className="border-t-2"></div>
-      <div className="grid grid-cols-2 gap-4 p-20">
-        <div
-          className={`border h-[60vh] rounded-lg overflow-hidden hover:scale-[96%] cursor-pointer transition duration-300`}
-        >
-          <img src={project1} alt="Project" />
-        </div>
-        <div
-          className={`border h-[60vh] rounded-lg overflow-hidden hover:scale-[96%] cursor-pointer transition duration-300`}
-        >
-          <img src={project2} alt="Project" />
-        </div>
-        <div
-          className={`border h-[60vh] rounded-lg overflow-hidden hover:scale-[96%] cursor-pointer transition duration-300`}
-        >
-          <img src={project3} alt="Project" />
-        </div>
-        <div
-          className={`border h-[60vh] rounded-lg overflow-hidden hover:scale-[96%] cursor-pointer transition duration-300`}
-        >
-          <img src={project4} alt="Project" />
-        </div>
+      <div className=" relative grid grid-cols-2 gap-4 p-20">
+        {projectsList.map((project) => (
+          <ProjectCard
+            key={project.id}
+            onCardHover={() => onCardHover(project.title)}
+            onCardLeaveHover={onCardLeaveHover}
+            project={project}
+          />
+        ))}
+        {hoveredProjectTitle && (
+          <motion.div
+            variants={containerAnimation}
+            initial="initial"
+            animate="animate"
+            className="absolute z-30 text-green-400 font-semibold flex text-8xl items-center justify-center w-full h-full pointer-events-none"
+          >
+            {hoveredProjectTitle.split("").map((letter, index) => (
+              <motion.span key={index} variants={letterAnimation}>
+                {letter.toUpperCase()}
+              </motion.span>
+            ))}
+          </motion.div>
+        )}
       </div>
       <div className="flex items-center justify-center">
         <button
